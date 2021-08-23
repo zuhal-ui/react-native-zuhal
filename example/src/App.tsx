@@ -1,20 +1,20 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { StyleSheet, View, Text } from 'react-native';
-import Zuhal from 'react-native-zuhal';
+import { StyleSheet, View, Text } from 'react-native'
+import Zuhal from 'react-native-zuhal'
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState<number | undefined>()
 
   React.useEffect(() => {
-    Zuhal.multiply(3, 7).then(setResult);
-  }, []);
+    Zuhal.multiply(3, 7).then(setResult)
+  }, [])
 
   return (
     <View style={styles.container}>
       <Text>Result: {result}</Text>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     height: 60,
     marginVertical: 20,
   },
-});
+})
