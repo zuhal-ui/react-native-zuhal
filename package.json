@@ -151,5 +151,9 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@callstack/react-theme-provider": "^3.0.6",
+    "color": "^4.0.1"
   }
 }
