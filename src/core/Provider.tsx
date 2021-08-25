@@ -3,15 +3,15 @@ import { Appearance, ColorSchemeName } from 'react-native'
 import { ThemeProvider } from './theming'
 // import { Provider as SettingsProvider, Settings } from './settings'
 // import MaterialCommunityIcon from '../components/MaterialCommunityIcon'
-import DefaultTheme from '../styles/DefaultTheme'
-import DarkTheme from '../styles/DarkTheme'
+import { DefaultTheme } from '../styles/DefaultTheme'
+import { DarkTheme } from '../styles/DarkTheme'
 
 type Props = {
   children: React.ReactNode
   theme?: ReactNativeZuhal.Theme
 }
 
-const Provider = ({ ...props }: Props) => {
+export const Provider = ({ ...props }: Props) => {
   const colorSchemeName =
     (!props.theme && Appearance?.getColorScheme()) || 'light'
 
@@ -48,5 +48,3 @@ const Provider = ({ ...props }: Props) => {
   const { children } = props
   return <ThemeProvider theme={getTheme()}>{children}</ThemeProvider>
 }
-
-export default Provider

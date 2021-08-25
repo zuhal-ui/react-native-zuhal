@@ -1,9 +1,9 @@
-import DefaultTheme from './DefaultTheme'
+import { DefaultTheme } from './DefaultTheme'
 import { white, pinkA100, neutral700, neutral900, neutral500 } from './colors'
 import type { Theme } from '../types'
 
 // TODO: these properties are fake. replace them with correct properties
-const DarkTheme: Theme = {
+export const DarkTheme: Theme = {
   ...DefaultTheme,
   dark: true,
   mode: 'adaptive',
@@ -22,5 +22,3 @@ const DarkTheme: Theme = {
     notification: pinkA100,
   },
 }
-
-export default DarkTheme

@@ -7,11 +7,11 @@ import {
   primary100,
   primary300,
 } from './colors'
-import configureFonts from './fonts'
+import { configureFonts } from './fonts'
 import type { Theme } from '../types'
 
 // TODO: these properties are fake. replace them with correct properties
-const DefaultTheme: Theme = {
+export const DefaultTheme: Theme = {
   dark: false,
   roundness: 4,
   colors: {
@@ -32,5 +32,3 @@ const DefaultTheme: Theme = {
     scale: 1.0,
   },
 }
-
-export default DefaultTheme

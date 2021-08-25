@@ -98,6 +98,7 @@ export const Button = ({
 }: // theme,
 // ...props
 Props) => {
+  // TODO: add useTheme
   return (
     <Pressable
       testID={testID}
