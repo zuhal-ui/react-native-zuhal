@@ -9,9 +9,12 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native'
+import color from 'color'
+import { useTheme } from '../core/theming'
+import { black, white } from '../styles/colors'
 
 interface Props {
-  icon: React.ReactElement
+  icon?: React.ReactElement
   /**
    * Mode of the button. You can change the mode to adjust the styling to give it desired emphasis.
    * - `text` - flat button without background or outline (low emphasis)
@@ -54,7 +57,7 @@ interface Props {
   /**
    * @optional
    */
-  theme: ReactNativeZuhal.Theme
+  theme?: ReactNativeZuhal.Theme
   /**
    * Function to execute on press.
    */
@@ -83,11 +86,11 @@ export const Button = ({
   //@ts-ignore
   // icon,
   loading,
-  // mode,
-  // color,
+  mode,
+  color: buttonColor,
   style,
   contentStyle,
-  // disabled,
+  disabled,
   labelStyle,
   onPress,
   onLongPress,
@@ -95,24 +98,96 @@ export const Button = ({
   uppercase,
   testID,
   compact,
+  dark,
 }: // theme,
 // ...props
 Props) => {
   // TODO: add useTheme
+  const { colors, roundness, ...theme } = useTheme()
+
+  const font = theme.fonts.medium
+  let backgroundColor: string,
+    borderColor: string,
+    textColor: string,
+    borderWidth: number
+  if (mode === 'contained') {
+    if (disabled) {
+      backgroundColor = color(theme.dark ? white : black)
+        .alpha(0.12)
+        .rgb()
+        .string()
+    } else if (buttonColor) {
+      backgroundColor = buttonColor
+    } else {
+      backgroundColor = colors.primary
+    }
+  } else {
+    backgroundColor = 'transparent'
+  }
+
+  if (mode === 'outlined') {
+    borderColor = color(theme.dark ? white : black)
+      .alpha(0.29)
+      .rgb()
+      .string()
+    borderWidth = StyleSheet.hairlineWidth
+  } else {
+    borderColor = 'transparent'
+    borderWidth = 0
+  }
+
+  if (disabled) {
+    textColor = color(theme.dark ? white : black)
+      .alpha(0.32)
+      .rgb()
+      .string()
+  } else if (mode === 'contained') {
+    let isDark
+
+    if (typeof dark === 'boolean') {
+      isDark = dark
+    } else {
+      isDark =
+        backgroundColor === 'transparent'
+          ? false
+          : !color(backgroundColor).isLight()
+    }
+
+    textColor = isDark ? white : black
+  } else if (buttonColor) {
+    textColor = buttonColor
+  } else {
+    textColor = colors.primary
+  }
+
+  const buttonStyle: ViewStyle = {
+    backgroundColor,
+    borderColor,
+    borderWidth,
+    borderRadius: roundness,
+  }
+
+  const textStyle = { color: textColor, ...font }
+
   return (
     <Pressable
       testID={testID}
+      disabled={disabled}
       onPress={onPress}
       onLongPress={onLongPress}
-      style={[styles.button, style]}
+      style={[styles.button, compact && styles.compact, buttonStyle, style]}
     >
       <View style={[styles.content, contentStyle]}>
         <Text
+          selectable={false}
+          numberOfLines={1}
           style={[
             styles.label,
-            labelStyle,
+            compact && styles.compactLabel,
             uppercase && styles.uppercaseLabel,
-            compact && styles.compact,
+            textStyle,
+            font,
+            labelStyle,
           ]}
         >
           {children}
