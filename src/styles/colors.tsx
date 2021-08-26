@@ -135,11 +135,6 @@ export const tealA400 = '#1de9b6'
 export const tealA700 = '#00bfa5'
 
 export const green50 = '#e8f5e9'
-export const green100 = '#c8e6c9'
-export const green200 = '#a5d6a7'
-export const green300 = '#81c784'
-export const green400 = '#66bb6a'
-export const green500 = '#4caf50'
 export const green600 = '#43a047'
 export const green700 = '#388e3c'
 export const green800 = '#2e7d32'
@@ -274,6 +269,7 @@ export const grey900 = '#212121'
 
 export const black = '#000000'
 export const white = '#ffffff'
+
 // Neutrals
 export const neutral50 = '#f8fafc'
 export const neutral100 = '#f1f5f9'
@@ -292,3 +288,24 @@ export const primary200 = '#f56f7f'
 export const primary300 = '#f2495e'
 export const primary400 = '#ef233c'
 export const primary500 = '#d50f28'
+
+// Secondary
+export const secondary100 = '#95DBF7'
+export const secondary200 = '#6FCFF5'
+export const secondary300 = '#49C2F2'
+export const secondary400 = '#23B5EF'
+export const secondary500 = '#0F9DD5'
+
+// Green
+export const green100 = '#95DBF7'
+export const green200 = '#6FCFF5'
+export const green300 = '#49C2F2'
+export const green400 = '#23B5EF'
+export const green500 = '#0F9DD5'
+
+// Dust
+export const dust100 = '#f5d298'
+export const dust200 = '#f2c273'
+export const dust300 = '#eeb24d'
+export const dust400 = '#eba228'
+export const dust500 = '#d28a13'

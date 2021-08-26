@@ -1,5 +1,13 @@
 import { DefaultTheme } from './DefaultTheme'
-import { white, pinkA100, neutral700, neutral900, neutral500 } from './colors'
+import {
+  white,
+  neutral500,
+  primary100,
+  primary300,
+  black,
+  neutral200,
+  neutral300,
+} from './colors'
 import type { Theme } from '../types'
 
 // TODO: these properties are fake. replace them with correct properties
@@ -9,16 +17,16 @@ export const DarkTheme: Theme = {
   mode: 'adaptive',
   colors: {
     ...DefaultTheme.colors,
-    primary: '#BB86FC',
-    accent: '#03dac6',
-    background: '#121212',
-    surface: '#121212',
-    error: '#CF6679',
-    onSurface: '#FFFFFF',
-    text: white,
-    disabled: neutral900,
-    placeholder: neutral700,
-    backdrop: neutral500,
-    notification: pinkA100,
+    primary: primary100,
+    accent: primary300,
+    background: '#f6f6f6',
+    surface: white,
+    error: '#B00020',
+    text: black,
+    onSurface: '#000000',
+    disabled: neutral200,
+    placeholder: neutral500,
+    backdrop: neutral300,
+    notification: primary300,
   },
 }

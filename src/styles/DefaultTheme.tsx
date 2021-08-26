@@ -3,9 +3,9 @@ import {
   white,
   neutral200,
   neutral500,
-  neutral600,
   primary100,
   primary300,
+  neutral300,
 } from './colors'
 import { configureFonts } from './fonts'
 import type { Theme } from '../types'
@@ -22,10 +22,10 @@ export const DefaultTheme: Theme = {
     error: '#B00020',
     text: black,
     onSurface: '#000000',
-    disabled: neutral500,
-    placeholder: neutral200,
-    backdrop: neutral600,
-    notification: primary100,
+    disabled: neutral200,
+    placeholder: neutral500,
+    backdrop: neutral300,
+    notification: primary300,
   },
   fonts: configureFonts(),
   animation: {
