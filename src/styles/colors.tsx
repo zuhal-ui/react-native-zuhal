@@ -1,3 +1,4 @@
+// TODO: add reac-native-zuhal colors
 export const red50 = '#ffebee'
 export const red100 = '#ffcdd2'
 export const red200 = '#ef9a9a'
