@@ -99,6 +99,7 @@ export const Button = ({
   testID,
   compact,
   dark,
+  accessibilityLabel,
 }: // theme,
 // ...props
 Props) => {
@@ -160,6 +161,8 @@ Props) => {
     textColor = colors.primary
   }
 
+  const rippleColor = color(textColor).alpha(0.32).rgb().string()
+
   const buttonStyle: ViewStyle = {
     backgroundColor,
     borderColor,
@@ -167,12 +170,24 @@ Props) => {
     borderRadius: roundness,
   }
 
+  const { color: customLabelColor, fontSize: customLabelSize } =
+    StyleSheet.flatten(labelStyle) || {}
+
   const textStyle = { color: textColor, ...font }
+
+  const iconStyle =
+    StyleSheet.flatten(contentStyle)?.flexDirection === 'row-reverse'
+      ? styles.iconReverse
+      : styles.icon
 
   return (
     <Pressable
       testID={testID}
       disabled={disabled}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled }}
+      android_ripple={{ color: rippleColor }}
       onPress={onPress}
       onLongPress={onLongPress}
       style={[styles.button, compact && styles.compact, buttonStyle, style]}
@@ -192,7 +207,17 @@ Props) => {
         >
           {children}
         </Text>
-        {loading ? <ActivityIndicator size={16} /> : null}
+        {loading ? (
+          <ActivityIndicator
+            size={customLabelSize || 16}
+            color={
+              typeof customLabelColor === 'string'
+                ? customLabelColor
+                : textColor
+            }
+            style={iconStyle}
+          />
+        ) : null}
       </View>
     </Pressable>
   )
@@ -212,12 +237,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    marginLeft: 12,
-    marginRight: -4,
+    marginLeft: 4,
+    marginRight: 8,
   },
   iconReverse: {
-    marginRight: 12,
-    marginLeft: -4,
+    marginRight: 4,
+    marginLeft: 8,
   },
   label: {
     textAlign: 'center',
