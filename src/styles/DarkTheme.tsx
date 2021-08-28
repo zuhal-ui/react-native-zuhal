@@ -7,6 +7,7 @@ import {
   black,
   neutral200,
   neutral300,
+  primary400,
 } from './colors'
 import type { Theme } from '../types'
 
@@ -21,7 +22,7 @@ export const DarkTheme: Theme = {
     accent: primary300,
     background: '#f6f6f6',
     surface: white,
-    error: '#B00020',
+    error: primary400,
     text: black,
     onSurface: '#000000',
     disabled: neutral200,

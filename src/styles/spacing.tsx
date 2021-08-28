@@ -1,0 +1,25 @@
+// px
+export const space2 = 2
+export const space4 = 4
+export const space6 = 6
+export const space8 = 8
+export const space10 = 10
+export const space12 = 12
+export const space14 = 14
+export const space16 = 16
+export const space20 = 20
+export const space24 = 24
+export const space28 = 28
+export const space32 = 32
+export const space36 = 36
+export const space40 = 40
+export const space44 = 44
+export const space48 = 48
+export const space56 = 56
+export const space64 = 64
+export const space80 = 80
+export const space96 = 96
+export const space112 = 112
+export const space128 = 128
+export const space144 = 144
+export const space160 = 160
