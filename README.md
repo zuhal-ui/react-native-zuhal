@@ -1,6 +1,6 @@
 # react-native-zuhal
 
-Nice and Modern UI for React Native
+Nice and Modern Design System for React Native
 
 # 🦺 Work in Progress ...
 
