@@ -30,7 +30,6 @@ interface Props {
    * value during dragging.
    */
   value?: number
-
   /**
    * Step value of the slider. The value should be
    * between 0 and (maximumValue - minimumValue).
@@ -151,20 +150,49 @@ let TRACK_DIMENSION = 50
 let CONSTANT_MINIMUM_VALUE = 0
 let CONSTANT_MAXIMUM_VALUE = SLIDER_WIDTH - TRACK_DIMENSION
 
-export const Slider = ({
+// OldRange = (OldMax - OldMin)
+// NewRange = (NewMax - NewMin)
+// NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
+const _Slider = ({
   onValueChange,
   minimumValue = 0,
   maximumValue = 1,
+  onSlidingStart,
+  onSlidingComplete,
+  value: initialValue = minimumValue || 0,
+  step = 0.1,
   ...props
 }: Props) => {
-  const x = useSharedValue<number>(0)
+  // convert to 0 - SLIDER_WIDTH range to know actual position of track
+  const calculatedValue = React.useMemo(
+    () =>
+      findNumberInAnotherRange(
+        [minimumValue, maximumValue],
+        [CONSTANT_MINIMUM_VALUE, CONSTANT_MAXIMUM_VALUE],
+        initialValue
+      ),
+    [initialValue, minimumValue, maximumValue]
+  )
+  const _step = React.useMemo(
+    () =>
+      findNumberInAnotherRange(
+        [minimumValue, maximumValue],
+        [CONSTANT_MINIMUM_VALUE, CONSTANT_MAXIMUM_VALUE],
+        minimumValue + step
+      ),
+    [step, minimumValue, maximumValue]
+  )
+  const x = useSharedValue<number>(calculatedValue)
   const pressed = useSharedValue(false)
 
   const _onValueChange = (value: number) => {
     onValueChange?.(
-      ((value - CONSTANT_MINIMUM_VALUE) * (maximumValue - minimumValue)) /
-        (CONSTANT_MAXIMUM_VALUE - CONSTANT_MINIMUM_VALUE) +
-        minimumValue
+      findNumberInAnotherRange(
+        [CONSTANT_MINIMUM_VALUE, CONSTANT_MAXIMUM_VALUE],
+        [minimumValue, maximumValue],
+        value
+      )
     )
   }
 
@@ -172,20 +200,42 @@ export const Slider = ({
     onStart: (_, ctx: CTX) => {
       pressed.value = true
       ctx.startX = x.value
+      if (onSlidingStart)
+        runOnJS(onSlidingStart)(
+          findNumberInAnotherRange(
+            [CONSTANT_MINIMUM_VALUE, CONSTANT_MAXIMUM_VALUE],
+            [minimumValue, maximumValue],
+            x.value
+          )
+        )
     },
+
+    // 3.4
     onActive: (e, ctx) => {
       let value = ctx.startX + e.translationX
-      if (value <= SLIDER_WIDTH - TRACK_DIMENSION && value >= 0) {
-        x.value = value
-      } else if (value >= SLIDER_WIDTH - TRACK_DIMENSION) {
+      let valueWithStep = Math.ceil(value / _step) * _step
+      if (
+        valueWithStep <= SLIDER_WIDTH - TRACK_DIMENSION &&
+        valueWithStep >= 0
+      ) {
+        x.value = valueWithStep
+      } else if (valueWithStep >= SLIDER_WIDTH - TRACK_DIMENSION) {
         x.value = SLIDER_WIDTH - TRACK_DIMENSION
-      } else if (value <= 0) {
+      } else if (valueWithStep <= 0) {
         x.value = 0
       }
       runOnJS(_onValueChange)(x.value)
     },
     onEnd: () => {
       pressed.value = false
+      if (onSlidingComplete)
+        runOnJS(onSlidingComplete)(
+          findNumberInAnotherRange(
+            [CONSTANT_MINIMUM_VALUE, CONSTANT_MAXIMUM_VALUE],
+            [minimumValue, maximumValue],
+            x.value
+          )
+        )
       // x.value = withSpring(0)
     },
   })
@@ -210,6 +260,19 @@ export const Slider = ({
     </View>
   )
 }
+
+function findNumberInAnotherRange(
+  oldRange: [number, number],
+  newRange: [number, number],
+  number: number
+) {
+  let oldRangeDif = oldRange[1] - oldRange[0]
+  let newRangeDif = newRange[1] - newRange[0]
+  let newValue = ((number - oldRange[0]) * newRangeDif) / oldRangeDif + 0
+  return newValue
+}
+
+export const Slider = React.memo(_Slider)
 
 const styles = StyleSheet.create({
   container: {
