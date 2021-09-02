@@ -6,7 +6,7 @@ const RadioButtonContext = React.createContext<{
   onValueChange: (item: string) => void
 }>(null as any)
 
-interface Props {
+interface RadioButtonGroupProps {
   /**
    * Function to execute on selection change.
    */
@@ -21,7 +21,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export const RadioButtonGroup: React.FC<Props> = ({
+export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   value,
   onValueChange,
   children,

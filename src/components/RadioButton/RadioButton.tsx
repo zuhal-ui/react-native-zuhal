@@ -7,7 +7,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useRadio } from './RadioButtonGroup'
 
-interface Props {
+interface RadioButtonProps {
   /**
    * value of radio button
    */
@@ -25,14 +25,14 @@ interface Props {
   uncheckedColor?: string
 }
 
-const RadioButton = ({
+export default function RadioButton({
   status,
   onPress,
   disabled,
   uncheckedColor,
   color,
   value,
-}: Props) => {
+}: RadioButtonProps) {
   const context = useRadio()
   if (!status && context) {
     status = context.value === value ? 'checked' : 'unchecked'
@@ -68,8 +68,6 @@ const RadioButton = ({
     </Pressable>
   )
 }
-
-export default RadioButton
 
 const styles = StyleSheet.create({
   outer: {

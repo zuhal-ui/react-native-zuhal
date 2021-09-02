@@ -7,6 +7,7 @@ export default {
 export { ThemeProvider, useTheme, withTheme } from './core/theming'
 export { Provider } from './core/Provider'
 export { Button } from './components/Button'
+export { RadioButton } from './components/RadioButton/index'
 export { Snackbar } from './components/Snackbar'
 export { Switch } from './components/Switch'
 export { Slider } from './components/Slider'
