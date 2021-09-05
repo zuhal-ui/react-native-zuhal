@@ -1,6 +1,11 @@
 import RadioButtonComponent from './RadioButton'
 import { RadioButtonGroup } from './RadioButtonGroup'
 
-export const RadioButton = Object.assign(RadioButtonComponent, {
+type RadioButtonType = typeof RadioButtonComponent
+type RadioButtonGroup = typeof RadioButtonGroup
+
+interface CombinedTypes extends RadioButtonType, RadioButtonGroup {}
+
+export const RadioButton: CombinedTypes = Object.assign(RadioButtonComponent, {
   Group: RadioButtonGroup,
 })
