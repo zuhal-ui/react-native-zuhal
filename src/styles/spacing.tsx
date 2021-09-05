@@ -1,4 +1,5 @@
 // px
+export const space1 = 1
 export const space2 = 2
 export const space4 = 4
 export const space6 = 6
