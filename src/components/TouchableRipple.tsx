@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Pressable, StyleSheet, PressableProps } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -13,18 +13,27 @@ import { neutral100 } from '../styles/colors'
 const AnimatedComponent = Animated.createAnimatedComponent(Pressable)
 const TouchableRipple = ({ children, ...rest }: PressableProps) => {
   const [status, setStatus] = useState('idle')
+  const flag = useRef('idle')
   const animatedValue = useSharedValue(0.1)
 
-  const updateState = useCallback(() => {
-    setStatus('idle')
-    animatedValue.value = 0.1
-  }, [animatedValue])
+  const updateState = useCallback(
+    (isFinished: boolean) => {
+      if (isFinished) {
+        setStatus('idle')
+        setTimeout(() => {
+          animatedValue.value = 0.1
+          flag.current = 'idle'
+        }, 25)
+      }
+    },
+    [animatedValue]
+  )
 
   const Animation = (callback: (isFinished: boolean) => void) => {
     return withTiming(
       0,
       {
-        duration: 125,
+        duration: 500,
         easing: Easing.linear,
       },
       callback
@@ -32,24 +41,26 @@ const TouchableRipple = ({ children, ...rest }: PressableProps) => {
   }
 
   const pressOut = useCallback(() => {
-    if (status === 'leaved') {
+    if (flag?.current === 'leaved') {
       return
     } else {
       setStatus('leaved')
-      animatedValue.value = Animation(() => {
+      flag.current = 'leaved'
+      animatedValue.value = Animation((isFinished: boolean) => {
         'worklet'
-        runOnJS(updateState)()
+        runOnJS(updateState)(isFinished)
       })
     }
-  }, [status, animatedValue, updateState])
+  }, [animatedValue, updateState])
 
   const pressIn = useCallback(() => {
-    if (status === 'idle') {
+    if (flag?.current === 'idle') {
       setStatus('pressed')
+      flag.current = 'pressed'
     } else {
       return
     }
-  }, [status])
+  }, [])
 
   const container = useAnimatedStyle(() => {
     return {
